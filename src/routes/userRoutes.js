@@ -1,5 +1,7 @@
 import express from "express";
 import UserController from "../controllers/UserController";
+import Validator from "../middlewares/validator";
+import DataChecker from "../middlewares/DataChecker";
 import { oktaAuthRequired } from "../middlewares/lib/oktaAuthRequired.js";
 
 const router = express.Router();
@@ -22,9 +24,25 @@ router.get("/locked", (req, res) => {
 
 router.post(
   "/signup",
-
+  Validator.accountRules(),
+  Validator.validateInput,
+  DataChecker.validateEmailNotExist,
   // oktaAuthRequired,
   UserController.signup
+);
+router.post(
+  "/signin",
+  Validator.accountRules(),
+  Validator.validateInput,
+  DataChecker.validateEmailExist,
+  // oktaAuthRequired,
+  UserController.signin
+);
+router.post(
+  "/otpauth",
+  DataChecker.validateEmailExist,
+  // oktaAuthRequired,
+  UserController.signinWithOtp
 );
 
 export default router;

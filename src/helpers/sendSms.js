@@ -1,25 +1,48 @@
-// var messagebird = require("messagebird")("0G8xIDpYogW53BypTNYvFFfcI");
+import axios from "axios";
+import qs from "qs";
+import "dotenv/config"
 
-// const sendSms = async(smsFrom, smsTo, message) => {
-//     // var params = {
-//     //     originator: smsFrom,
-//     //     recipients: [smsTo],
-//     //     body: message,
-//     // };
-//     var params = {
-//         'originator': '+250787082328',
-//         'recipients': [
-//             '+250787082328'
-//         ],
-//         'type': 'sms',
-//         'body': 'This is your OTP'
-//     };
-//     messagebird.messages.create(params, function(err, response) {
-//         if (err) {
-//             return console.log(err);
-//         }
-//         console.log(response);
-//     });
-// };
+class SendSMS {
+  constructor(recepient, otpCode, url) {
+    this.to = recepient.phone;
+    this.from = "HePay";
+    this.url = process.env.SMS_URL;
+    this.otpCode = otpCode;
+  }
 
-// export default sendSms;
+  async send() {
+    const message = `
+        Z-${this.otpCode} is your ZPlatform verification code.
+      `;
+
+    const data = qs.stringify({
+      message,
+      sender: this.from,
+      recipients: this.to,
+    });
+
+    const config = {
+      method: "post",
+      url: this.url,
+      headers: {
+        Authorization: "Basic bXVuZXplbW15Om1lbW15MDcyMjQwNDUyOA==",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: data,
+    };
+
+    try {
+      const res = await axios(config);
+      
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async sendotpCodeSMS() {
+    return await this.send();
+  }
+}
+
+export default SendSMS;

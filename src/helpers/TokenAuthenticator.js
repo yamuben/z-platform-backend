@@ -16,7 +16,7 @@ export default class TokenAuthenticator {
    * @returns {object} token
    */
   static tokenGenerator(data) {
-    const token = jwt.sign(data, process.env.JWT_KEY);
+    const token = jwt.sign(data, process.env.JWT_KEY,{expiresIn:"1d"});
     return token;
   }
   /**
