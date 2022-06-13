@@ -2,9 +2,9 @@ import Response from "./helpers/Response";
 import express from "express";
 import bodyParser from "body-parser";
 import HttpStatus from "http-status";
-import  "dotenv/config";
+import "dotenv/config";
 import cors from "cors";
-// import router from "./routes";
+import router from "./routes";
 import mongoose from "mongoose";
 import globalErrorHandler from "./helpers/errorController";
 
@@ -13,10 +13,12 @@ import globalErrorHandler from "./helpers/errorController";
 const app = express();
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 app.use(bodyParser.text({ limit: "50mb" }));
+
+// configuring cors
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", type: "application/json" }));
 
-// app.use("/", router);
+app.use("/", router);
 
 app.get("/", (req, res) =>
   Response.successMessage(res, "zPlatform APIs", "", HttpStatus.BAD_REQUEST)
