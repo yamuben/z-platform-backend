@@ -7,8 +7,13 @@ import cors from "cors";
 import router from "./routes";
 import mongoose from "mongoose";
 import globalErrorHandler from "./helpers/errorController";
+import cloudinaryUpload from "./helpers/cloudinary";
+const fileUpload = require("express-fileupload");
 
 // dotenv.config({path:"../.env"})
+
+//connecting to cloudinary
+cloudinaryUpload();
 
 const app = express();
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
@@ -17,7 +22,12 @@ app.use(bodyParser.text({ limit: "50mb" }));
 // configuring cors
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", type: "application/json" }));
-
+//File upload
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 app.use("/", router);
 
 app.get("/", (req, res) =>

@@ -1,5 +1,6 @@
 import UserAccount from "../models/user";
 import UserProfile from "../models/profile";
+import IdentityDoc from "../models/identityDoc";
 import SendSMS from "../helpers/sendSms";
 import { otpCodeGenerate } from "../helpers/otpGenerate";
 
@@ -61,7 +62,7 @@ class UserServices {
         //   ).sendotpCodeSMS();
         const userLogin = await UserAccount.findByIdAndUpdate(
           user._id,
-          { otp: otpCode ,isActive: false},
+          { otp: otpCode, isActive: false },
           { new: true }
         ).select("-password");
         return userLogin;
@@ -86,13 +87,13 @@ class UserServices {
     const user = await UserAccount.findOne({ otp: req.body.otp }).select(
       "-password"
     );
-console.log("LLLLLLLLLLL",user)
+    console.log("LLLLLLLLLLL", user);
     if (!user) {
-    return Response.errorMessage(
-      res,
-      { error: "OTP is not correct" },
-      HttpStatus.BAD_REQUEST
-    );
+      return Response.errorMessage(
+        res,
+        { error: "OTP is not correct" },
+        HttpStatus.BAD_REQUEST
+      );
     }
     const userUpdated = await UserAccount.findByIdAndUpdate(
       user._id,
@@ -100,7 +101,57 @@ console.log("LLLLLLLLLLL",user)
       { new: true }
     );
     return userUpdated;
+  }
 
+  /**
+   * User register identification
+   * @static
+   * @body {object} req  request object
+   * @memberof UserServices
+   * @returns {object} data
+   */
+  static async createIdentity(req, res) {
+    const newIdentityDoc = await IdentityDoc.create(req.body);
+    if (!newIdentityDoc) {
+      return Response.errorMessage(
+        res,
+        { error: "OTP is not correct" },
+        HttpStatus.BAD_REQUEST
+      );
+    } else {
+      await UserProfile.findByIdAndUpdate(
+        req.user._id,
+        {
+          identityDoc: newIdentityDoc._id,
+        },
+        { new: true }
+      );
+
+      await UserAccount.findByIdAndUpdate(
+        req.user._id,
+        { statusVerification: "pending" },
+        { new: true }
+      );
+
+      return newIdentityDoc;
+    }
+  }
+
+  static async updateUser(req, res) {
+    const userUpdated = await UserAccount.findByIdAndUpdate(
+      req.params.id,
+      { statusVerification: "verified" },
+      { new: true }
+    );
+    if (!userUpdated) {
+      return null;
+    }
+    return userUpdated;
+  }
+
+  static async getAllUsers() {
+    const users = await UserProfile.find();
+    return users;
   }
 }
 

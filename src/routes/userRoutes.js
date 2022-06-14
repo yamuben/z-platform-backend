@@ -3,8 +3,26 @@ import UserController from "../controllers/UserController";
 import Validator from "../middlewares/validator";
 import DataChecker from "../middlewares/DataChecker";
 import { oktaAuthRequired } from "../middlewares/lib/oktaAuthRequired.js";
-
+import verifyAccess from "../middlewares/verifyAccess";
+import verifyToken from "../middlewares/verifyToken";
 const router = express.Router();
+
+// Admin Apis
+router.get(
+  "/all",
+  verifyToken,
+  verifyAccess("admin"),
+  UserController.getAllUsers
+);
+
+router.patch(
+  "/verify/:id",
+  verifyToken,
+  verifyAccess("admin"),
+  UserController.updateUser
+);
+
+// normal Apis
 
 router.get("/locked", (req, res) => {
   console.log("thanks OKTA");
@@ -44,5 +62,15 @@ router.post(
   // oktaAuthRequired,
   UserController.signinWithOtp
 );
+
+router.post(
+  "/createidentity",
+  verifyToken,
+  verifyAccess("user"),
+  UserController.createIdentity
+);
+
+//uploading picture
+router.post("/image", UserController.uploadPhoto);
 
 export default router;
