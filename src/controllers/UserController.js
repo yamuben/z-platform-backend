@@ -142,17 +142,40 @@ class UserController {
    * @memberof UserServices
    * @returns {object} response
    */
-  static async getAllUsers(req, res) {
+   static async getAllUsers(req, res) {
     const users = await UserServices.getAllUsers();
-    Response.successMessage(
+   return Response.successMessage(
       res,
       "User updated successfully",
       users,
       HttpStatus.OK
     );
   }
-
   /**
+   * Get my user profile
+   * @static
+   * @body {object} req  request object
+   * @memberof UserServices
+   * @returns {object} response
+   */
+  static async getMyProfile(req, res) {
+    const user = await UserServices.getMyProfile(req);
+   return Response.successMessage(
+      res,
+      "User retrieved successfully",
+      user,
+      HttpStatus.OK
+    );
+  }
+static respondEmailExist(req,res){
+  return Response.successMessage(
+    res,
+    "Email found successfully",
+    {email:req.body.email},
+    HttpStatus.OK
+  );
+}
+  /** 
    * User upload Image controller
    * @static
    * @body {object} req  request file/image

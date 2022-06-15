@@ -119,21 +119,22 @@ class UserServices {
         HttpStatus.BAD_REQUEST
       );
     } else {
-      await UserProfile.findByIdAndUpdate(
-        req.user._id,
-        {
-          identityDoc: newIdentityDoc._id,
-        },
-        { new: true }
-      );
-
       await UserAccount.findByIdAndUpdate(
         req.user._id,
         { statusVerification: "pending" },
         { new: true }
       );
 
-      return newIdentityDoc;
+      const updatedUserProfile = await UserProfile.findOneAndUpdate(
+        { userAccount: req.user._id },
+        {
+          identityDoc: newIdentityDoc._id,
+        },
+        { new: true }
+      );
+      console.log(updatedUserProfile);
+
+      return updatedUserProfile;
     }
   }
 
@@ -152,6 +153,14 @@ class UserServices {
   static async getAllUsers() {
     const users = await UserProfile.find();
     return users;
+  }
+  static async getMyProfile(req, res) {
+    const userProfile = await UserProfile.findOne({
+      userAccount: req.user._id,
+    });
+    console.log(userProfile);
+    const acc = userProfile?.userAccount;
+    return userProfile;
   }
 }
 

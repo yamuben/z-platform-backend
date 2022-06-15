@@ -41,7 +41,7 @@ profileSchema.pre(/^find/, function(next) {
         // select: "firstname lastName phone",
     }).populate({
         path: "userAccount",
-        select: "userName email role isActive statusVerification",
+        select: "userName phone email role isActive statusVerification",
     });
     next();
 });

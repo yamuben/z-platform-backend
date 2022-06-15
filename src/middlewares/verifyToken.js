@@ -46,6 +46,7 @@ const isUserExist = async (req, res, next) => {
       );
     }
     req.user = payload;
+    // console.log(payload)
     req.token = token;
     next();
   } catch (error) {

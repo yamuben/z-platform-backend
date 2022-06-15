@@ -22,6 +22,13 @@ router.patch(
   UserController.updateUser
 );
 
+router.get(
+  "/profile",
+  verifyToken,
+  // verifyAccess("admin"),
+  UserController.getMyProfile
+);
+
 // normal Apis
 
 router.get("/locked", (req, res) => {
@@ -39,6 +46,12 @@ router.get("/locked", (req, res) => {
     ],
   });
 });
+
+router.post(
+  "/email",
+  DataChecker.validateEmailExist,
+  UserController.respondEmailExist
+);
 
 router.post(
   "/signup",
