@@ -2,21 +2,33 @@ import Response from "./helpers/Response";
 import express from "express";
 import bodyParser from "body-parser";
 import HttpStatus from "http-status";
-import  "dotenv/config";
+import "dotenv/config";
 import cors from "cors";
-// import router from "./routes";
+import router from "./routes";
 import mongoose from "mongoose";
 import globalErrorHandler from "./helpers/errorController";
+import cloudinaryUpload from "./helpers/cloudinary";
+const fileUpload = require("express-fileupload");
 
 // dotenv.config({path:"../.env"})
+
+//connecting to cloudinary
+cloudinaryUpload();
 
 const app = express();
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 app.use(bodyParser.text({ limit: "50mb" }));
+
+// configuring cors
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", type: "application/json" }));
-
-// app.use("/", router);
+//File upload
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
+app.use("/", router);
 
 app.get("/", (req, res) =>
   Response.successMessage(res, "zPlatform APIs", "", HttpStatus.BAD_REQUEST)

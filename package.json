@@ -1,43 +1,48 @@
 {
-  "name": "z-platform-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "dev-test",
-    "start": "babel-node ./src/index.js",
-    "dev-server": "nodemon --exec babel-node ./src/index.js",
-    "prod-server": "SET NODE_ENV=production & nodemon --exec babel-node ./src/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yamuben/z-platform-backend.git"
-  },
-  "author": "I Benjamin",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yamuben/z-platform-backend/issues"
-  },
-  "homepage": "https://github.com/yamuben/z-platform-backend#readme",
-  "dependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.18.2",
-    "@babel/node": "^7.17.10",
-    "@babel/plugin-transform-runtime": "^7.18.2",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.18.2",
-    "@babel/register": "^7.17.7",
-    "@types/node": "^17.0.41",
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.20.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "express-validator": "^6.14.1",
-    "http-status": "^1.5.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.6",
-    "nodemon": "^2.0.16",
-    "validator": "^13.7.0"
-  }
+    "name": "z-platform-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "dev-test",
+        "start": "babel-node ./src/index.js",
+        "dev-server": "nodemon --exec babel-node ./src/index.js",
+        "prod-server": "SET NODE_ENV=production & nodemon --exec babel-node ./src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yamuben/z-platform-backend.git"
+    },
+    "author": "I Benjamin",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yamuben/z-platform-backend/issues"
+    },
+    "homepage": "https://github.com/yamuben/z-platform-backend#readme",
+    "dependencies": {
+        "@babel/cli": "^7.17.10",
+        "@babel/core": "^7.18.2",
+        "@babel/node": "^7.17.10",
+        "@babel/plugin-transform-runtime": "^7.18.2",
+        "@babel/polyfill": "^7.12.1",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/register": "^7.17.7",
+        "@okta/jwt-verifier": "^2.3.0",
+        "@types/node": "^17.0.41",
+        "axios": "^0.27.2",
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.20.0",
+        "cloudinary": "^1.30.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.1",
+        "express": "^4.18.1",
+        "express-fileupload": "^1.4.0",
+        "express-validator": "^6.14.1",
+        "http-status": "^1.5.2",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.3.6",
+        "nodemon": "^2.0.16",
+        "otp-generator": "^4.0.0",
+        "validator": "^13.7.0"
+    }
 }

@@ -16,7 +16,7 @@ class Response {
   }
 
   static errorMessage(res, error, status) {
-    res.status(status).json({
+    res.status(400).json({
       status: status,
       error,
     });
