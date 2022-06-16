@@ -21,11 +21,11 @@ class UserServices {
     req.body.password = HashPassword.hashPassword(req.body.password);
     req.body.otp = await otpCodeGenerate();
     const user = await UserAccount.create(req.body);
-    // const result = await new SendSMS(
-    //     user,
-    //     req.body.otp,
-    //     "reset"
-    //   ).sendotpCodeSMS();
+    const result = await new SendSMS(
+        user,
+        req.body.otp,
+        "reset"
+      ).sendotpCodeSMS();
     if (user) {
       const userProfile = await UserProfile.create({
         ...req.body,
@@ -55,11 +55,11 @@ class UserServices {
 
     if (user) {
       if (HashPassword.matchingPassword(req.body.password, user)) {
-        // const result = await new SendSMS(
-        //     user,
-        //     req.body.otp,
-        //     "reset"
-        //   ).sendotpCodeSMS();
+        const result = await new SendSMS(
+            user,
+            req.body.otp,
+            "reset"
+          ).sendotpCodeSMS();
         const userLogin = await UserAccount.findByIdAndUpdate(
           user._id,
           { otp: otpCode, isActive: false },
