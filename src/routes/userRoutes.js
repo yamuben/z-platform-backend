@@ -11,7 +11,7 @@ const router = express.Router();
 router.get(
   "/all",
   verifyToken,
-  verifyAccess("admin"),
+  // verifyAccess("admin"),
   UserController.getAllUsers
 );
 
